@@ -1,9 +1,17 @@
+/*
+Program to draw a bar chart
+*/
 
 #include<windows.h>
 #include <stdio.h>
 #include <math.h>
 #include <GL/glut.h>
-//#include "headerlib.h"
+
+/*
+Draw a line between (X1[i],Y1[i]) and (X2[i],Y2[i])
+where 0 <= i < counter
+*/
+
 double X1[20], Y1[20], X2[20], Y2[20];
   int counter=0;
 
@@ -11,28 +19,34 @@ float round_value(float v)
 {
   return floor(v + 0.5);
 }
+
+/*
+the following function uses Digital differential algorithm to draw a line between the points (X1[i],Y1[i]) and (X2[i],Y2[i])
+*/
 void LineDDA(void)
 {
     glClear(GL_COLOR_BUFFER_BIT);
-double k=0;
+    double k=0;
+  // Drawing X-axis and y-axis
     for(int p=0;p<400;p++){
          glBegin(GL_POINTS);
-    k +=1;
+     k +=1;
     glVertex2d(round_value(0), round_value(k));
     glVertex2d(round_value(k), round_value(0));
-
-glEnd();
-glFlush();
+    glEnd();
+    glFlush();
     }
 
     int i=0;
     for(i=0;i<counter;i++)
     {
+      //To change the color of pen each time
   if(i%3==0)
-  {int a = rand()%2;
-  int b = rand()%2;
-  int c = rand()%2;
-  glColor3f(a,b,c);
+  {
+    int a = rand()%2;
+    int b = rand()%2;
+    int c = rand()%2;
+    glColor3f(a,b,c);
   }
         double x1=X1[i];
         double y1=Y1[i];
@@ -49,7 +63,6 @@ glFlush();
   /* Clears buffers to preset values */
   //glClear(GL_COLOR_BUFFER_BIT);
   /* Plot the points */
-
   glBegin(GL_POINTS);
   /* Plot the first point */
   glVertex2d(x,y);
@@ -96,23 +109,21 @@ int main(int argc, char **argv)
   /* Initialize drawing colors */
 double x1,x2,y1,y2,d,f;
     for(int i=0;i<num;i++){
-        printf("Enter the difference and corresponding Frequency: ");
+      /*
+      For each given pair of points(calculated) we draw 3 corresponding lines: Two parallel to Y-axis and one parallel to X-axis.
+      */
+        printf("Enter the difference(X2-X1) and corresponding Frequency: ");
         scanf("%lf%lf",&d,&f);
         if(counter==0){
+          //Initialization
         X1[0]=0;
         Y1[0]=0;
         X2[0]=0;
         Y2[0]=f;
-        /*for(int s=1;s<5;s++){
-            X1[s]=X2[s-1];
-            Y1[s]=Y2[s-1];
-            X2[s]=
-        }*/
         X1[1]=0;
         Y1[1]=f;
         X2[1]=d;
         Y2[1]=f;
-
         X1[2]=d;
         Y1[2]=f;
         X2[2]=d;
@@ -137,8 +148,10 @@ double x1,x2,y1,y2,d,f;
         counter++;
         }
     }
+  /* Printing the calculated values of x,y
 for(int p=0;p<counter;p++)
     printf("x1: %lf y1:%lf X2: %lf y2: %lf\n",X1[p],Y1[p],X2[p],Y2[p]);
+    */
   Init();
 
   /* Call the displaying function */
